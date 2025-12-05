@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinland Saga</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="imgfundo">
+    <header>
+        <h1>Vinland Saga</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"> Home</a></li>
+                <li><a href="historia.html">História</a></li>
+                <li><a href="cadastro.html"><u>Cadastro</u></a></li>
+                <li><a href="login.html">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="cadastroLogin">
+        <section class="coleta texto">
+            <h3>Cadastro</h3><br>
+             <p>
+                Nome:
+            </p><br>
+            <input id="input_nome" type="text"><br><br>
+            <p>
+                Email:
+            </p><br>
+            <input id="input_email" type="text"><br><br>
+            <p>
+                Senha:
+            </p><br>
+            <input id="input_senha" type="password"><br><br>
+
+            <p>
+                Confirmar senha:
+            </p><br>
+            <input id="input_senha_confirm" type="password"><br><br>
+
+            <button onclick="verificar()">Cadastrar!</button>
+
+            <br>
+
+            <p class="aviso" id="mensagem_erro"></p>
+        </section>
+    </main>
+
+    <footer>
+            <p>© 2025 Fanpage de Vinland Saga| Criado por Gustavo Vilas Bôas</p>
+            <p>Trabalho de PI para a SPtechschool</p>
+    </footer>
+
+    <script>
+        function verificar(){
+            var nome = input_nome.value;
+            var email = input_email.value;
+            var senha = input_senha.value;
+            var senhaConfirm = input_senha_confirm.value;
+
+            if (senha != senhaConfirm){
+                alert(`Cadastro inválido, senhor(a) ${nome}. 
+                As senhas estão diferentes!!`);
+            } else if (!email.includes('@') || !email.endsWith('.com')) {
+                alert("Email inválido!");
+            } else {
+                fetch("/usuarios/cadastrar", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({
+                        nomeServer: nome,
+                        emailServer: email,
+                        senhaServer: senha
+                    }),
+                })
+                .then(function (resposta) {
+                    console.log("resposta: ", resposta);
+
+                    if (resposta.ok) {
+
+                        mensagem_erro.innerHTML = `<b>AUTORIZADO!<br><br> Cadastro efetuado com sucesso!`
+                        document.getElementById("card_erro").style.backgroundColor = "rgb(39, 39, 39)"
+
+                        setTimeout(() => {
+                            mensagem_erro.innerHTML = ``
+                            document.getElementById("card_erro").style.backgroundColor = ""
+                            window.location.href = "login.html"
+                        }, 2000)
+
+                    } else {
+                        mensagem_erro.innerHTML = `<b>Inválido!<br><br> Email já cadastrado!`
+                        document.getElementById("card_erro").style.backgroundColor = "rgb(39, 39, 39)"
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+</html>

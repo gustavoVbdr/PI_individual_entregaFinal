@@ -1,0 +1,284 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&display=swap');
+
+* { 
+  margin: 0; 
+  padding: 0; 
+  box-sizing: border-box; 
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #1A1A1A;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #3B0F0F;
+  color: white;
+  padding: 15px 40px;
+  border-bottom: 2px solid white;
+  font-family: 'Cinzel', serif;
+}
+
+footer {
+  margin-top: 60px;
+  text-align: center;
+  padding: 15px;
+  color: white;
+  background-color: #3B0F0F;
+  font-style: italic;
+  border-top: 2px solid #ffffff;
+}
+
+nav { 
+  display: flex;
+  gap: 20px;
+}
+
+nav ul { 
+  display: flex;
+  gap: 20px;
+  list-style: none;
+}
+
+nav a { 
+  color: white;
+  text-decoration: none; 
+}
+
+main {
+  margin: 30px auto;
+  max-width: 1100px;
+  padding: 10px 20px;
+}
+
+/* HOME e GERAL */
+
+.banner {
+  display: flex;
+  justify-content: center; 
+  align-items: center;    
+  height: 300px;           
+  background-color: #1A1A1A;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+.banner img {
+  max-width: 100%;
+  max-height: 100%;
+  border: 4px solid #3B0F0F;
+}
+
+.introHome {
+  color: white;
+}
+
+.introHome .topico {
+  color: aquamarine;
+}
+
+.introHome .subintroHome {
+  color: white;
+  font-family: 'Cinzel', serif;
+}
+
+.fraseImg {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.fraseImg .Citacao {
+  border: 2px solid rgb(86, 86, 86);
+  border-radius: 6px;
+  line-height: 1.6;
+  color: white; 
+  white-space: pre-line;  
+  padding: 10px 14px;
+  margin: 0;
+  background-color: #3B0F0F;
+  display: flex;
+  align-items: center;
+}
+
+.imgHome img {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  border: 6px solid #3B0F0F;
+  border-radius: 6px;
+  box-shadow: 30px rgba(0, 0, 0, 0.6);
+}
+
+.autor {
+  margin-top: 30px;
+  color: white;
+  font-family: 'Cinzel', serif;
+}
+
+.topico {
+  color: aquamarine;
+  font-family: 'Cinzel', serif;
+}
+
+.obra {
+  margin-top: 30px;
+  color: white;
+}
+
+.texto {
+  color: white;
+  font-family: 'Cinzel', serif;
+}
+
+/* FUNDO E ÁREA DE CADASTRO e LOGIN */
+
+.cadastroLogin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 900px; 
+}
+
+.imgfundo {
+  background-image: url(imagens/selva.png);
+  width: 100%;
+  height: 100vh;
+}
+
+/* CAIXA DE FORMULARIO */
+
+.coleta {
+  border: 10px solid #3b0f0f;
+  background-color: #3b0f0f;
+  border-radius: 25px;
+  width: 400px;
+  padding: 50px;
+  margin-bottom: 100px;
+  margin-top: 100px;
+}
+
+/* CAMPOS E BOTÕES */
+
+input {
+  width: 95%;
+  height: 40px;
+  padding: 10px;
+  font-size: 18px;
+  border: 3px solid black;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+button {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  width: 90%;
+  height: 45px;
+  font-size: 18px;
+  background-color: aquamarine;
+  border: 3px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* OS OUTROS ELEMENTOS */
+
+.centralizarTexto {
+  text-align: center;
+}
+
+.caixaPergunta {
+  border: 4px solid #3B0F0F;
+  border-radius: 10px;
+  padding: 20px;
+  background-color: #3B0F0F;
+  margin-top: 20px;
+}
+
+.selecionar {
+  background-color: white;
+  border: 4px solid rgb(0, 0, 0);
+  border-radius: 6px;
+  width: 100%;
+}
+
+.resultadoQuiz {
+  border: 4px solid #3B0F0F;
+  border-radius: 6px;
+  padding: 25px;
+  margin: 200px;
+  margin-bottom: 200px;
+  background-color: #3b0f0f;
+}
+
+.loginPraCadastro {
+  font-size: 10px;
+}
+
+.aviso {
+  font-size: medium;
+  margin: 10px;
+}
+
+/* GRAFICOS e KPIS */
+
+.KPIS {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+
+  color: white;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.KPI {
+  background-color: #3B0F0F;
+  border: 2px solid white;
+  border-radius: 8px;
+
+  width: 180px;
+  padding: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.KPI b {
+  font-size: 14px;
+}
+
+.KPI span {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.grafico {
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  padding: 20px;
+
+  background-color: #111;
+  border-radius: 8px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grafico canvas {
+  width: 100% !important;
+  height: auto !important;
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vinland Saga</title>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    
+</head>
+<body>
+    <header>
+        <h1>Vinland Saga</h1>
+        <nav>
+            <ul>
+                <li><a href="quizz.html">Quiz</a></li>
+                <li><a href="estatisticas.html"><u>Tentativas</u></a></li>
+                <li><a href="index.html"> Sair ➞ </a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <p id="mensagem"></p>
+
+    <div class="KPIS">
+        <div class="KPI">
+            <b>Tentativas:</b> <span id="kpi_tentativas">-</span>
+        </div>
+        <div class="KPI">
+            <b>Total de acertos:</b> <span id="kpi_total_acertos">-</span>
+        </div>
+        <div class="KPI">
+            <b>Total de erros:</b> <span id="kpi_total_erros">-</span>
+        </div>
+        <div class="KPI">
+            <b>Taxa de acerto:</b> <span id="kpi_taxa_acerto">-</span>
+        </div>
+        <div class="KPI">
+            <b>Melhor tentativa:</b> <span id="kpi_melhor_tentativa">-</span>
+        </div>
+    </div>
+
+    <br>
+
+
+    <div class="grafico">
+        <canvas id="grafico_tentativas"></canvas>
+    </div>
+
+</body>
+</html>
+<script>
+    var idUsuario = sessionStorage.ID_USUARIO;
+
+    if (!idUsuario) {
+        alert("Você precisa estar logado para ver as estatísticas.");
+        window.location = "login.html";
+    }
+    var graficoTentativas = null;
+
+    function carregarEstatisticas() {
+        fetch("/quiz/estatisticas", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idUsuario: idUsuario 
+            })
+        })
+            .then(function (resposta) {
+                if (!resposta.ok || resposta.status == 204) {
+                    return []
+                }
+                return resposta.json();
+            })
+            .then(function (dados) {
+                if (!dados || dados.length == 0) {
+                    return;
+                }
+                var labels = [];
+                var dadosAcertos = [];
+                var dadosErros = [];
+
+                for (var i = 0; i < dados.length; i++) {
+                    labels.push("Tentativa " + (i + 1));
+                    dadosAcertos.push(dados[i].acertos)
+                    dadosErros.push(dados[i].erros);
+                }
+
+                var totalTentativas = dados.length;
+                var totalAcertos = 0;
+                var totalErros = 0;
+                var melhorAcerto = 0
+
+                for (var i = 0; i < dados.length; i++) {
+                    totalAcertos += dados[i].acertos;
+                    totalErros += dados[i].erros;
+
+                    if (dados[i].acertos > melhorAcerto) {
+                        melhorAcerto = dados[i].acertos;
+                    }
+                }
+
+                var totalRespondido = totalAcertos + totalErros;
+                var taxaAcerto = 0;
+
+                if (totalRespondido > 0) {
+                    taxaAcerto = (totalAcertos / totalRespondido) * 100
+                }
+
+                kpi_tentativas.innerText = totalTentativas;
+                kpi_total_acertos.innerText = totalAcertos;
+                kpi_total_erros.innerText = totalErros;
+                kpi_taxa_acerto.innerText = taxaAcerto.toFixed(1) + "%";
+                kpi_melhor_tentativa.innerText = melhorAcerto + " acertos";
+
+                var ctx = grafico_tentativas.getContext("2d");
+
+                if (graficoTentativas != null) {
+                    graficoTentativas.destroy();
+                }
+
+                graficoTentativas = new Chart(ctx, {
+                    type: "bar",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Acertos",
+                                data: dadosAcertos,
+                                backgroundColor: "rgba(54, 162, 235, 0.6)"
+                            },
+                            {
+                                label: "Erros",
+                                data: dadosErros,
+                                backgroundColor: "rgba(255, 99, 132, 0.6)"
+                            }
+                        ]
+                    }
+                });
+            })
+            .catch(function (erro) {
+                console.error("Erro ao buscar estatísticas: ", erro);
+            });
+    }
+    window.onload = carregarEstatisticas;
+</script>
+
+

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <title>Vinland Saga</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Vinland Saga</h1>
+        <nav>
+            <ul>
+                <li><a href="quizz.html"><u>Quiz</u></a></li>
+                <li><a href="estatisticas.html">Tentativas</a></li>
+                 <li><a href="index.html"> Sair ➞ </a></li>
+            </ul>
+        </nav>
+    </header>
+
+   <main>
+        <!-- pag 1 -->
+        <div id="pg_quiz_1" style="display: block;">
+            <section class="texto">
+                <h2 class="centralizarTexto">Quiz Vinland Saga</h2><br>
+                <h3 class="centralizarTexto">Tente acertar algumas perguntinhas</h3><br><br>
+            </section>
+
+            <section class="perguntas texto">
+
+                <div class="caixaPergunta">
+                    <h3>Pergunta 1:</h3><br>
+                    <p>O que o Thorfinn queria fazer quando era criança?</p><br>
+                    <select class="selecionar" id="pergunta_1">
+                        <option value="0">Ser pescado</option>
+                        <option value="1">Ser guerreiro</option>
+                        <option value="0">Ser jogador de fut</option>
+                        <option value="0">Ser cozinheiro</option>
+                    </select>
+                </div>
+
+                <div class="caixaPergunta">
+                    <h3>Pergunta 2:</h3><br>
+                    <p>O que o pai de Thorfinn sempre dizia?</p><br>
+                    <select class="selecionar" id="pergunta_2">
+                        <option value="0">“A vingança é o único caminho”</option>
+                        <option value="1">“Ninguém tem inimigos”</option>
+                        <option value="0">“O mais forte vence”</option>
+                        <option value="0">“A guerra é necessária”</option>
+                    </select>
+                </div>
+                <div class="caixaPergunta">
+                    <h3>Pergunta 3:</h3><br>
+                    <p>Quem matou o pai de Thorfinn?</p><br>
+                    <select class="selecionar" id="pergunta_3">
+                        <option value="0">Leif</option>
+                        <option value="0">Bjorn</option>
+                        <option value="1">Askeladd</option>
+                        <option value="0">Canute</option>
+                    </select>
+                </div>
+
+                <div class="caixaPergunta">
+                    <h3>Pergunta 4:</h3><br>
+                    <p>O que acontece com Thorfinn depois da morte de Askeladd?</p><br>
+                    <select class="selecionar" id="pergunta_4">
+                        <option value="0">Ele se torna rei</option>
+                        <option value="0">Ele foge para Vinland</option>
+                        <option value="0">Ele morre</option>
+                        <option value="1">Ele é feito escravo</option>
+                    </select>
+                </div>
+
+                <div class="caixaPergunta">
+                    <h3>Pergunta 5:</h3><br>
+                    <p>O que significa “Vinland”?</p><br>
+                    <select class="selecionar" id="pergunta_5">
+                        <option value="0">Terra dos vikings</option>
+                        <option value="0">Terra dos deuses</option>
+                        <option value="1">Terra pacífica e fértil</option>
+                        <option value="0">Terra gelada</option>
+                    </select>
+                </div>
+
+            </section>
+
+            <button onclick="Ver()">Ver Acertos</button>
+        </div>
+
+        <!-- segunda pag-->
+        <div id="pg_quiz_2" style="display: none;">
+            <section class="resultadoQuiz texto centralizarTexto">
+                <h2>Resultado</h2><br>
+                <h3 id="resposta"></h3><br>
+                <button onclick="Voltar()">Tentar de novo</button>
+            </section>
+        </div>
+    </main>
+
+
+    <footer>
+        <p>© 2025 Fanpage de Vinland Saga| Criado por Gustavo Vilas Bôas</p>
+        <p>Trabalho de PI para a SPtechschool</p>
+    </footer>
+
+</body>
+</html>
+<script>
+    var idUsuario = sessionStorage.ID_USUARIO;
+    var nomeUsuario = sessionStorage.NOME_USUARIO
+
+    if (!idUsuario || !nomeUsuario) {
+        alert("Você precisa estar logado para fazer o quiz.");
+        window.location = "login.html";
+    }
+
+    function Ver() {
+        var p1 = Number(pergunta_1.value);
+        var p2 = Number(pergunta_2.value);
+        var p3 = Number(pergunta_3.value)
+        var p4 = Number(pergunta_4.value);
+        var p5 = Number(pergunta_5.value)
+        var acertos = p1 + p2 + p3 + p4 + p5;
+        var erros = 5 - acertos;
+
+        pg_quiz_1.style.display = "none";
+        pg_quiz_2.style.display = "block";
+
+        if (acertos === 5) {
+            resposta.innerHTML = "Acertou tudo! " + acertos + "/5";
+        } else if (acertos > 2) {
+            resposta.innerHTML = "Acertou algumas hein! " + acertos + "/5"
+        } else {
+            resposta.innerHTML = "Errou a maioria, dá pra melhorar! " + acertos + "/5";
+        }
+        fetch("/quiz/registrar", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                fkUsuario: idUsuario,
+                fkQuiz: 1,      
+                acertos: acertos,
+                erros: erros
+            })
+        }).then(function (resposta) {
+            console.log("status do fetch do quiz:", resposta.status);
+        })
+    }
+
+    function Voltar() {
+        pg_quiz_1.style.display = "block";
+        pg_quiz_2.style.display = "none";
+
+        pergunta_1.value = 0;
+        pergunta_2.value = 0
+        pergunta_3.value = 0;
+        pergunta_4.value = 0;
+        pergunta_5.value = 0;
+    }
+</script>
